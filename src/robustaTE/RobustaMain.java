@@ -39,40 +39,46 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	 public static void main(String[] args) {
 
 			RobustaMain runner = new RobustaMain();
+			
 		}
 	 
 	  public void run() {
-	    frame = new JFrame("RobustaTE");
-
-	    // Set the look-and-feel (LNF) of the application
-		// Try to default to whatever the host system prefers
+	    // Set the look-and-feel 
+		// Tries to default to whatever the host system prefers
 	    try {
-	      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    	System.setProperty("apple.laf.useScreenMenuBar", "true"); // use macOS global menu bar instead of in app menu bar if on macOS
+	    	System.setProperty( "apple.awt.application.name", "RobustaTE" ); // is meant to set macOS global menu bar app name, doesn't seem to work
+	    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 	      Logger.getLogger(RobustaMain.class.getName()).log(Level.SEVERE, null, ex);
 	    }
+	    
+	    frame = new JFrame("RobustaTE"); //create the window 
+		
+	    // Build the menu bar
+	    JMenuBar menu_main = new JMenuBar(); // creates the menu bar
 
-		// Build the menu
-	    JMenuBar menu_main = new JMenuBar();
+		JMenu menu_file = new JMenu("File"); // file menu
+		JMenu menu_edit = new JMenu("Edit"); // edit menu
 
-		JMenu menu_file = new JMenu("File");
-
-		JMenuItem menuitem_new = new JMenuItem("New");
+		JMenuItem menuitem_new = new JMenuItem("New"); // next 4 lines create options in file menu
 	    JMenuItem menuitem_open = new JMenuItem("Open");
 	    JMenuItem menuitem_save = new JMenuItem("Save");
 	    JMenuItem menuitem_quit = new JMenuItem("Quit");
 
-		menuitem_new.addActionListener(this);
+		menuitem_new.addActionListener(this); // event listeners for file menu options
 	    menuitem_open.addActionListener(this);
 	    menuitem_save.addActionListener(this);
 	    menuitem_quit.addActionListener(this);
 
-		menu_main.add(menu_file);
+		menu_main.add(menu_file);  // adds file menu to the menu bar so it's visible/usable
 
-		menu_file.add(menuitem_new);
+		menu_file.add(menuitem_new); // next 4 lines add file menu options to the file menu
 	    menu_file.add(menuitem_open);
 	    menu_file.add(menuitem_save);
 	    menu_file.add(menuitem_quit);
+	    
+	    menu_main.add(menu_edit); // adds edit menu to the menu bar so it's visible/usable
 
 		frame.setJMenuBar(menu_main);
 		//JPanel panel = new JPanel();
@@ -89,16 +95,17 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    //scrollBar.setBounds(5, 5, 100, 100);
 	    //add(scrollBar, BorderLayout.CENTER);
 	    //frame.add(area);
-	    frame.setSize(640, 480);
+	    frame.setSize(800, 600); // window size in pixels
 	    frame.add(scrollBar);
 		//panel.add(scrollBar);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("RobustaTE Editor - untitled file"); // set default window title of main editor window
 	    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	    String ingest = null;
+	    String ingest = ""; // was originally = null, but that inserts "null" into first line of any file opened
 	    JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 	    jfc.setDialogTitle("Choose destination.");
 	    jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -108,6 +115,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	        returnValue = jfc.showOpenDialog(null);
 	        if (returnValue == JFileChooser.APPROVE_OPTION) {
 	        File f = new File(jfc.getSelectedFile().getAbsolutePath());
+	        frame.setTitle(f.getPath() ); // set window title to path of the currently open file
 	        try{
 	            FileReader read = new FileReader(f);
 	            Scanner scan = new Scanner(read);
