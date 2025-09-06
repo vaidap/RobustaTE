@@ -17,6 +17,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -32,9 +34,10 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	private static JFrame frame;
 	private static int returnValue = 0;
 	private static String appName = "RobustaTE Editor - ";
+    private boolean unsavedChanges = false;
 	
 	 public RobustaMain() { 
-		 run(); 
+		 run();
 		 }
 
 	 public static void main(String[] args) {
@@ -87,9 +90,38 @@ public final class RobustaMain extends JFrame implements ActionListener {
 		//Set vertical and horizontal scrollbar always show
 
 		// Set attributes of the app window
-		
 	
 		area = new JTextArea();
+
+		area.addKeyListener(new KeyListener()
+
+		{
+		    @Override
+		    public void keyPressed(KeyEvent e) {
+		        // Handle key pressed actions here
+		    }
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+				// on first key typed, add [*] to window title bar once
+				// won't trigger again until unsavedChanges is set to false (on open or save)
+				if (unsavedChanges == false) {
+					frame.setTitle(frame.getTitle() + " [*]");
+				}
+				unsavedChanges = true;
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		}
+				
+				);
+		
 		JScrollPane scrollBar= new JScrollPane(area,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollBar.setPreferredSize(new Dimension(300, 200));
 		
@@ -117,6 +149,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	        if (returnValue == JFileChooser.APPROVE_OPTION) {
 	        File f = new File(jfc.getSelectedFile().getAbsolutePath());
 	        frame.setTitle(appName + f.getPath() ); // set window title to path of the currently open file
+	        unsavedChanges = false;
 	        try{
 	            FileReader read = new FileReader(f);
 	            Scanner scan = new Scanner(read);
@@ -137,6 +170,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	            out.write(area.getText());
 	            out.close();
 		        frame.setTitle(appName + f.getPath() ); // set window title to path of the newly created file
+		        unsavedChanges = false;
 	        } catch (FileNotFoundException ex) {
 	            Component f = null;
 	            JOptionPane.showMessageDialog(f,"File not found.");
