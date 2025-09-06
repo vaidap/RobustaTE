@@ -135,6 +135,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	            FileWriter out = new FileWriter(f);
 	            out.write(area.getText());
 	            out.close();
+		        frame.setTitle(f.getPath() ); // set window title to path of the newly created file
 	        } catch (FileNotFoundException ex) {
 	            Component f = null;
 	            JOptionPane.showMessageDialog(f,"File not found.");
