@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -65,19 +66,22 @@ public final class RobustaMain extends JFrame implements ActionListener {
 		JMenu menu_file = new JMenu("File"); // file menu
 		JMenu menu_edit = new JMenu("Edit"); // edit menu
 
-		JMenuItem menuitem_new = new JMenuItem("New"); // next 4 lines create options in file menu
+		JMenuItem menuitem_newWindow = new JMenuItem("New Window");
+		JMenuItem menuitem_newFile = new JMenuItem("New File"); // next 4 lines create options in file menu
 	    JMenuItem menuitem_open = new JMenuItem("Open");
 	    JMenuItem menuitem_save = new JMenuItem("Save");
 	    JMenuItem menuitem_quit = new JMenuItem("Quit");
 
-		menuitem_new.addActionListener(this); // event listeners for file menu options
+		menuitem_newWindow.addActionListener(this); // event listeners for file menu options
+		menuitem_newFile.addActionListener(this);
 	    menuitem_open.addActionListener(this);
 	    menuitem_save.addActionListener(this);
 	    menuitem_quit.addActionListener(this);
 
 		menu_main.add(menu_file);  // adds file menu to the menu bar so it's visible/usable
 
-		menu_file.add(menuitem_new); // next 4 lines add file menu options to the file menu
+		menu_file.add(menuitem_newWindow); // next 4 lines add file menu options to the file menu
+		menu_file.add(menuitem_newFile);
 	    menu_file.add(menuitem_open);
 	    menu_file.add(menuitem_save);
 	    menu_file.add(menuitem_quit);
@@ -144,8 +148,15 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
 	    String ae = e.getActionCommand();
-	    //OPEN
-	    if (ae.equals("Open")) {
+	    
+	    //OPEN WINDOW
+	    if (ae.equals("New Window")) {
+	    	Point currentWindowLocation = frame.getLocation();
+	    	RobustaMain newWindow = new RobustaMain();
+	    	newWindow.frame.setBounds(currentWindowLocation.x + 50, currentWindowLocation.y + 50, 800, 600);
+	    }
+	    //OPEN FILE
+	    else if (ae.equals("Open")) {
 	    	if (unsavedChanges == false) {
 	    		returnValue = jfc.showOpenDialog(null);
 	    		if (returnValue == JFileChooser.APPROVE_OPTION) {
