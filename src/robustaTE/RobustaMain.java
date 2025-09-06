@@ -144,25 +144,32 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
 	    String ae = e.getActionCommand();
+	    //OPEN
 	    if (ae.equals("Open")) {
-	        returnValue = jfc.showOpenDialog(null);
-	        if (returnValue == JFileChooser.APPROVE_OPTION) {
-	        File f = new File(jfc.getSelectedFile().getAbsolutePath());
-	        frame.setTitle(appName + f.getPath() ); // set window title to path of the currently open file
-	        unsavedChanges = false;
-	        try{
-	            FileReader read = new FileReader(f);
-	            Scanner scan = new Scanner(read);
-	            while(scan.hasNextLine()){
-	                String line = scan.nextLine() + "\n";
-	                ingest = ingest + line;
-	        }
-	            area.setText(ingest);
-	        }
-	    catch ( FileNotFoundException ex) { ex.printStackTrace(); }
-	}
+	    	if (unsavedChanges == false) {
+	    		returnValue = jfc.showOpenDialog(null);
+	    		if (returnValue == JFileChooser.APPROVE_OPTION) {
+	    			File f = new File(jfc.getSelectedFile().getAbsolutePath());
+	    			frame.setTitle(appName + f.getPath() ); // set window title to path of the currently open file
+	    			unsavedChanges = false;
+	    			try {
+	    				FileReader read = new FileReader(f);
+	    				Scanner scan = new Scanner(read);
+	    				while(scan.hasNextLine()){
+	    					String line = scan.nextLine() + "\n";
+	    					ingest = ingest + line;
+	    				}
+	    				area.setText(ingest);
+	    			}
+	    			catch ( FileNotFoundException ex) { ex.printStackTrace(); }
+    			}
+    		}
+	    	else {
+	    		JOptionPane.showMessageDialog(null, "Please save your changes first!");
+	    	}
+	    } 
 	    // SAVE
-	    } else if (ae.equals("Save")) {
+	    else if (ae.equals("Save")) {
 	        returnValue = jfc.showSaveDialog(null);
 	        try {
 	            File f = new File(jfc.getSelectedFile().getAbsolutePath());
