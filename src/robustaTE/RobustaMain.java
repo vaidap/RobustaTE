@@ -31,6 +31,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	private static JTextArea area;
 	private static JFrame frame;
 	private static int returnValue = 0;
+	private static String appName = "RobustaTE Editor - ";
 	
 	 public RobustaMain() { 
 		 run(); 
@@ -100,7 +101,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 		//panel.add(scrollBar);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("RobustaTE Editor - untitled file"); // set default window title of main editor window
+		frame.setTitle(appName + "untitled file"); // set default window title of main editor window
 	    }
 
 	@Override
@@ -115,7 +116,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	        returnValue = jfc.showOpenDialog(null);
 	        if (returnValue == JFileChooser.APPROVE_OPTION) {
 	        File f = new File(jfc.getSelectedFile().getAbsolutePath());
-	        frame.setTitle(f.getPath() ); // set window title to path of the currently open file
+	        frame.setTitle(appName + f.getPath() ); // set window title to path of the currently open file
 	        try{
 	            FileReader read = new FileReader(f);
 	            Scanner scan = new Scanner(read);
@@ -135,7 +136,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	            FileWriter out = new FileWriter(f);
 	            out.write(area.getText());
 	            out.close();
-		        frame.setTitle(f.getPath() ); // set window title to path of the newly created file
+		        frame.setTitle(appName + f.getPath() ); // set window title to path of the newly created file
 	        } catch (FileNotFoundException ex) {
 	            Component f = null;
 	            JOptionPane.showMessageDialog(f,"File not found.");
