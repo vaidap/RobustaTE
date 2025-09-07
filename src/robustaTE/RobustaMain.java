@@ -31,23 +31,14 @@ import java.util.logging.Logger;
 
 public final class RobustaMain extends JFrame implements ActionListener {
 	
-	private static JTextArea area;
-	private static JFrame frame;
-	private static int returnValue = 0;
-	private static String appName = "RobustaTE Editor - ";
+	private JTextArea area;
+	private JFrame frame;
+	private int returnValue = 0;
+	private String appName = "RobustaTE Editor - ";
     private boolean unsavedChanges = false;
 	
 	 public RobustaMain() { 
-		 run();
-		 }
 
-	 public static void main(String[] args) {
-
-			RobustaMain runner = new RobustaMain();
-			
-		}
-	 
-	  public void run() {
 	    // Set the look-and-feel 
 		// Tries to default to whatever the host system prefers
 	    try {
@@ -198,7 +189,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	        }
 	    } else if (ae.equals("New")) {
 	        area.setText("");
-	    } else if (ae.equals("Quit")) { System.exit(0); }
+	    } else if (ae.equals("Quit")) { frame.dispose(); }
 	  }
 	
 	
