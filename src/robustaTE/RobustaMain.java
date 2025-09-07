@@ -78,6 +78,31 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    
 	    menu_main.add(menu_edit); // adds edit menu to the menu bar so it's visible/usable
 
+		 final int DEFAULT_FONT_SIZE = 16;
+
+		// Change Font Size option
+		JMenuItem menuitem_fontSize = new JMenuItem("Change Font Size");
+		menuitem_fontSize.addActionListener(e -> {
+    		String sizeInput = JOptionPane.showInputDialog("Enter new font size:", String.valueOf(DEFAULT_FONT_SIZE));
+    		try {
+        		int fontSize = Integer.parseInt(sizeInput);
+        		area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
+    		} catch (Exception ex) {
+        		JOptionPane.showMessageDialog(frame, "Invalid input!");
+    		}
+		});
+	
+		menu_edit.add(menuitem_fontSize);
+
+		// Reset Font Size to Default option
+		JMenuItem menuitem_resetFont = new JMenuItem("Reset Font Size");
+		menuitem_resetFont.addActionListener(e -> {
+    		area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, DEFAULT_FONT_SIZE));
+    		JOptionPane.showMessageDialog(frame, "Font size reset to default (" + DEFAULT_FONT_SIZE + ").");
+		});
+
+		menu_edit.add(menuitem_resetFont);
+
 		frame.setJMenuBar(menu_main);
 		//JPanel panel = new JPanel();
 		//Create a scrollbar using JScrollPane and add panel into it's viewport
