@@ -71,7 +71,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 
 		menu_main.add(menu_file);  // adds file menu to the menu bar so it's visible/usable
 
-		menu_file.add(menuitem_newWindow); // next 4 lines add file menu options to the file menu
+		//menu_file.add(menuitem_newWindow); // next 4 lines add file menu options to the file menu
 		menu_file.add(menuitem_newFile);
 	    menu_file.add(menuitem_open);
 	    menu_file.add(menuitem_save);
@@ -141,7 +141,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    String ae = e.getActionCommand();
 	    
 	    //OPEN WINDOW
-	    if (ae.equals("New Window")) {
+	    if (ae.equals("New File")) {
 	    	Point currentWindowLocation = frame.getLocation();
 	    	RobustaMain newWindow = new RobustaMain();
 	    	newWindow.frame.setBounds(currentWindowLocation.x + 50, currentWindowLocation.y + 50, 800, 600);
