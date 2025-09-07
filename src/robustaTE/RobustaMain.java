@@ -43,7 +43,6 @@ public final class RobustaMain extends JFrame implements ActionListener {
 		// Tries to default to whatever the host system prefers
 	    try {
 	    	System.setProperty("apple.laf.useScreenMenuBar", "true"); // use macOS global menu bar instead of in app menu bar if on macOS
-	    	System.setProperty( "apple.awt.application.name", "RobustaTE" ); // is meant to set macOS global menu bar app name, doesn't seem to work
 	    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 	      Logger.getLogger(RobustaMain.class.getName()).log(Level.SEVERE, null, ex);
