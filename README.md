@@ -2,7 +2,7 @@
 
 RobustaTE is a basic graphical text editor written in Java, and using Java Swing for its UI. It's inspired by projects such as SciTE, Notepad++, Kate and Gedit.
 
-This has mainly started as a project for me to revise/improve my aging Java knowledge, and and learn more about building a UI in Swing.
+This has mainly started as a project for me to revise/improve my aging Java knowledge, and learn more about building a UI in Swing.
 
 Functionality is currently very limited, but is being improved with time. Current functionality includes:
   - Saving a text file to disk, from either a new file or an existing one
