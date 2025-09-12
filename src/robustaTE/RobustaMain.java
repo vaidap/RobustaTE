@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	private int returnValue = 0;
 	private String appName = "RobustaTE Editor - ";
     private boolean unsavedChanges = false;
+    private final int defaultFontSize = 16;
 	
 	 public RobustaMain() { 
 
@@ -49,6 +51,8 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    }
 	    
 	    frame = new JFrame("RobustaTE"); //create the window 
+		
+
 		
 	    // Build the menu bar
 	    JMenuBar menu_main = new JMenuBar(); // creates the menu bar
@@ -78,12 +82,11 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    
 	    menu_main.add(menu_edit); // adds edit menu to the menu bar so it's visible/usable
 
-		 final int DEFAULT_FONT_SIZE = 16;
 
 		// Change Font Size option
 		JMenuItem menuitem_fontSize = new JMenuItem("Change Font Size");
 		menuitem_fontSize.addActionListener(e -> {
-    		String sizeInput = JOptionPane.showInputDialog("Enter new font size:", String.valueOf(DEFAULT_FONT_SIZE));
+    		String sizeInput = JOptionPane.showInputDialog("Enter new font size:", String.valueOf(defaultFontSize));
     		try {
         		int fontSize = Integer.parseInt(sizeInput);
         		area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, fontSize));
@@ -97,8 +100,8 @@ public final class RobustaMain extends JFrame implements ActionListener {
 		// Reset Font Size to Default option
 		JMenuItem menuitem_resetFont = new JMenuItem("Reset Font Size");
 		menuitem_resetFont.addActionListener(e -> {
-    		area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, DEFAULT_FONT_SIZE));
-    		JOptionPane.showMessageDialog(frame, "Font size reset to default (" + DEFAULT_FONT_SIZE + ").");
+    		area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, defaultFontSize));
+    		JOptionPane.showMessageDialog(frame, "Font size reset to default (" + defaultFontSize + ").");
 		});
 
 		menu_edit.add(menuitem_resetFont);
@@ -111,6 +114,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 		// Set attributes of the app window
 	
 		area = new JTextArea();
+		area.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, defaultFontSize));
 
 		area.addKeyListener(new KeyListener()
 
