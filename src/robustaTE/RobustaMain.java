@@ -151,7 +151,7 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	    frame.add(scrollBar);
 		//panel.add(scrollBar);
 		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setTitle(appName + "untitled file"); // set default window title of main editor window
 	    }
 
