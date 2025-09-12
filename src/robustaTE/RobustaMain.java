@@ -217,7 +217,12 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	        }
 	    } else if (ae.equals("New")) {
 	        area.setText("");
-	    } else if (ae.equals("Quit")) { frame.dispose(); }
+	    } else if (ae.equals("Quit")) { 
+	    	if (unsavedChanges == true) {
+	    		JOptionPane.showMessageDialog(null,  "Please save your changes first!");
+	    	 }
+	    	else frame.dispose();
+	    }
 	  }
 	
 	
