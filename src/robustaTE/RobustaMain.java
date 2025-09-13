@@ -35,8 +35,24 @@ import java.util.logging.Logger;
 public final class RobustaMain extends JFrame implements ActionListener {
 
 	private JTextArea area;
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
 	private JFrame frame;
 	private int returnValue = 0;
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
 	private String appName = "RobustaTE Editor - ";
 	private boolean unsavedChanges = false;
 	private final int defaultFontSize = 16;
