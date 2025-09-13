@@ -38,8 +38,20 @@ public final class RobustaMain extends JFrame implements ActionListener {
 	private JFrame frame;
 	private int returnValue = 0;
 	private String appName = "RobustaTE Editor - ";
+	private File file = null;
 	private boolean unsavedChanges = false;
 	private final int defaultFontSize = 16;
+
+	private JMenuBar menu_main;
+	private JMenu menu_file;
+	private JMenu menu_edit;
+
+	private JMenuItem menuitem_newWindow;
+	private JMenuItem menuitem_newFile;
+	private JMenuItem menuitem_open;
+	private JMenuItem menuitem_save;
+	private JMenuItem menuitem_saveAs;
+	private JMenuItem menuitem_quit;
 
 	public RobustaMain() { 
 
@@ -56,21 +68,23 @@ public final class RobustaMain extends JFrame implements ActionListener {
 
 
 		// Build the menu bar
-		JMenuBar menu_main = new JMenuBar(); // creates the menu bar
+		menu_main = new JMenuBar(); // creates the menu bar
 
-		JMenu menu_file = new JMenu("File"); // file menu
-		JMenu menu_edit = new JMenu("Edit"); // edit menu
+		menu_file = new JMenu("File"); // file menu
+		menu_edit = new JMenu("Edit"); // edit menu
 
-		JMenuItem menuitem_newWindow = new JMenuItem("New Window");
-		JMenuItem menuitem_newFile = new JMenuItem("New File"); // next 4 lines create options in file menu
-		JMenuItem menuitem_open = new JMenuItem("Open");
-		JMenuItem menuitem_save = new JMenuItem("Save");
-		JMenuItem menuitem_quit = new JMenuItem("Quit");
+		menuitem_newWindow = new JMenuItem("New Window");
+		menuitem_newFile = new JMenuItem("New File"); // next 4 lines create options in file menu
+		menuitem_open = new JMenuItem("Open");
+		menuitem_save = new JMenuItem("Save");
+		menuitem_saveAs = new JMenuItem("Save As...");
+		menuitem_quit = new JMenuItem("Quit");
 
 		menuitem_newWindow.addActionListener(this); // event listeners for file menu options
 		menuitem_newFile.addActionListener(this);
 		menuitem_open.addActionListener(this);
 		menuitem_save.addActionListener(this);
+		menuitem_saveAs.addActionListener(this);
 		menuitem_quit.addActionListener(this);
 
 		menu_main.add(menu_file);  // adds file menu to the menu bar so it's visible/usable
@@ -79,9 +93,12 @@ public final class RobustaMain extends JFrame implements ActionListener {
 		menu_file.add(menuitem_newFile);
 		menu_file.add(menuitem_open);
 		menu_file.add(menuitem_save);
+		menu_file.add(menuitem_saveAs);
 		menu_file.add(menuitem_quit);
 
 		menu_main.add(menu_edit); // adds edit menu to the menu bar so it's visible/usable
+
+		menuitem_save.setEnabled(false); // set Save action to disabled when initialised
 
 
 		// Change Font Size option
@@ -131,8 +148,11 @@ public final class RobustaMain extends JFrame implements ActionListener {
 				// won't trigger again until unsavedChanges is set to false (on open or save)
 				if (unsavedChanges == false) {
 					frame.setTitle(frame.getTitle() + " [*]");
+					unsavedChanges = true;
+					if (file != null) { // only enable save option if changes are to an existing opened file
+						menuitem_save.setEnabled(true);
+					}
 				}
-				unsavedChanges = true;
 			}
 			
 			@Override
@@ -189,11 +209,11 @@ public final class RobustaMain extends JFrame implements ActionListener {
 			if (unsavedChanges == false) {
 				returnValue = jfc.showOpenDialog(null);
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
-					File f = new File(jfc.getSelectedFile().getAbsolutePath());
-					frame.setTitle(appName + f.getPath() ); // set window title to path of the currently open file
+					file = new File(jfc.getSelectedFile().getAbsolutePath());
+					frame.setTitle(appName + file.getPath() ); // set window title to path of the currently open file
 					unsavedChanges = false;
 					try {
-						FileReader read = new FileReader(f);
+						FileReader read = new FileReader(file);
 						Scanner scan = new Scanner(read);
 						while(scan.hasNextLine()){
 							String line = scan.nextLine() + "\n";
@@ -207,17 +227,40 @@ public final class RobustaMain extends JFrame implements ActionListener {
 			else {
 				JOptionPane.showMessageDialog(null, "Please save your changes first!");
 			}
-		} 
+		}
 		// SAVE
 		else if (ae.equals("Save")) {
+			if (file != null) {
+				try {
+					FileWriter out = new FileWriter(file);
+					out.write(area.getText());
+					out.close();
+					frame.setTitle(appName + file.getPath());
+					unsavedChanges = false;
+					menuitem_save.setEnabled(false);
+
+				} catch (FileNotFoundException ex) {
+					Component f = null;
+					JOptionPane.showMessageDialog(f,"File not found.");
+				} catch (IOException ex) {
+					Component f = null;
+					JOptionPane.showMessageDialog(f,"Error.");
+				}
+			}
+
+		}
+		// SAVE AS
+		else if (ae.equals("Save As...")) {
 			returnValue = jfc.showSaveDialog(null);
 			try {
-				File f = new File(jfc.getSelectedFile().getAbsolutePath());
-				FileWriter out = new FileWriter(f);
+				file = new File(jfc.getSelectedFile().getAbsolutePath());
+				FileWriter out = new FileWriter(file);
 				out.write(area.getText());
 				out.close();
-				frame.setTitle(appName + f.getPath() ); // set window title to path of the newly created file
+				frame.setTitle(appName + file.getPath() ); // set window title to path of the newly created file
 				unsavedChanges = false;
+				menuitem_save.setEnabled(false);
+
 			} catch (FileNotFoundException ex) {
 				Component f = null;
 				JOptionPane.showMessageDialog(f,"File not found.");
